@@ -1,0 +1,99 @@
+ 
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import Qt, QModelIndex
+from PyQt5.QtWidgets import *
+import csvScraper as cs
+import sys
+import pdfScraper as pd
+from PyQt5.uic import loadUi
+import subprocess 
+ 
+ 
+ 
+ 
+ -----------------------------------------------------------------------------
+ 
+        self.ExaminarButton.clicked.connect(self.examinar)
+        self.pushButton.clicked.connect(self.examinar2)
+        self.pushButton_2.clicked.connect(self.examinar3)
+        self.generarReporte.clicked.connect(self.generarReporte_CSV)
+        self.generarReporte_2.clicked.connect(self.generarReport_pdf)
+
+
+-----------------------------------------------------------------------------
+
+    def examinar(self):
+        try:
+            file_name = QFileDialog.getOpenFileName(filter='*.csv *.xls')
+            self.lineEdit.setText(file_name[0])
+        except Exception as ex:
+            print(f"Unexpected {ex=}, {type(ex)=}")
+    
+    def examinar2(self):
+        try:
+            file_name = QFileDialog.getExistingDirectory()
+            self.lineEdit_2.setText(file_name)
+        except Exception as ex:
+            print(f"Unexpected {ex=}, {type(ex)=}")
+        
+    def examinar3(self):
+        model = QtGui.QStandardItemModel()
+        files_names = QFileDialog.getOpenFileNames(filter='*.pdf')
+        self.listView.setModel(model)
+        for i in files_names[0]:
+            item = QtGui.QStandardItem(i)
+            model.appendRow(item)
+            
+
+    def generarReporte_CSV(self):
+        app.setOverrideCursor(Qt.WaitCursor)
+        try:
+            cs.generarReporte(self.lineEdit.text(), self.lineEdit_2.text())
+            ui.label.setText('Reporte generado en: ' + self.lineEdit_2.text()) 
+            
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Information)
+            msg.setText('Reporte generado en: ' + self.lineEdit_2.text())
+            msg.setWindowTitle("Information")
+            msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            ui.label.setText('Reporte generado en: ' + self.lineEdit_2.text())
+            msg.exec_()
+            subprocess.Popen([self.lineEdit_2.text()+'/Reporte2.pdf'],shell=True)
+        except Exception as ex:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText(f"Unexpected {ex=}, {type(ex)=}")
+            msg.setWindowTitle('Error')
+            msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            ui.label.setText('Error' + f"Unexpected {ex=}, {type(ex)=}")
+            msg.exec_()
+        
+        app.restoreOverrideCursor()
+    
+    def generarReport_pdf(self):
+        app.setOverrideCursor(Qt.WaitCursor)
+        files = []
+        try:
+            model = self.listView.model()
+            for i in range(model.rowCount()):
+                index =  model.index(i, 0, QModelIndex())
+                files.append(model.data(index))
+            pd.crearReporte(files, self.lineEdit_2.text())
+            
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Information)
+            msg.setText('Reporte generado en: ' + self.lineEdit_2.text())
+            msg.setWindowTitle("Information")
+            msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            ui.label.setText('Reporte generado en: ' + self.lineEdit_2.text())
+            msg.exec_()
+            subprocess.Popen([self.lineEdit_2.text()+'/Reporte.pdf'],shell=True)
+        except Exception as ex:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText(f"Unexpected {ex=}, {type(ex)=}")
+            msg.setWindowTitle("Error")
+            msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            ui.label.setText('Error' + f"Unexpected {ex=}, {type(ex)=}")
+            msg.exec_()
+        app.restoreOverrideCursor()

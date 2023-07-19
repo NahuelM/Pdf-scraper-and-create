@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>supergotitaLogo (1).png</file>
+    <file>Logo verde.png</file>
+  </qresource>
+  <qresource prefix="1">
+    <file>supergotita_chica.jpg</file>
+  </qresource>
+</RCC>
