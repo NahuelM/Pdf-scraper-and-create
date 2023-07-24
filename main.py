@@ -288,7 +288,7 @@ class Ui_MainWindow(object):
         self.ExaminarButton.setText(_translate("MainWindow", "Examinar"))
         self.label_2.setText(_translate("MainWindow", "Seleccionar archivo"))
         self.generarReporte.setText(_translate("MainWindow", "Generar Reporte Cuatrimestral"))
-        self.groupBox_2.setTitle(_translate("MainWindow", "Reporte Cuatrimestral"))
+        self.groupBox_2.setTitle(_translate("MainWindow", "Reporte mensual"))
         self.pushButton_2.setText(_translate("MainWindow", "Examinar"))
         self.pushButton_3.setText(_translate("MainWindow", "Agregar archivo"))
         self.pushButton_4.setText(_translate("MainWindow", "Borrar archivo"))
