@@ -9,7 +9,7 @@ from os import remove
 # filename = 'Data.csv'
 # data = pd.read_csv(filename, header=0)
 lista_errores = []
-def generarReporte(path, path_destino):
+def generarReporte(path, path_destino)->list:
     #region PDF scraping  
     dir_path = path
 
@@ -46,9 +46,9 @@ def generarReporte(path, path_destino):
     try:
         for i in range(1, data.shape[0]):
             #O_Origen de Fondos
-            #Busca la columna por indice, sino lo encuentra busca la columna por nombre
-            r = data.iloc[i].iloc[21] 
-            if(pd.isna(r)):
+            
+            r = data.iloc[i].loc['O_Origen de Fondos'] 
+            if(not pd.isna(r)):
                 r = data.iloc[i].loc['O_Origen de Fondos']
             
             if not pd.isna(r):
@@ -60,8 +60,8 @@ def generarReporte(path, path_destino):
                     origen_de_fondos.append((r, 1))
                 
                     
-            #O_Empresa contratada
-            r = data.iloc[i].iloc[22]
+            #O_Empresa contratada 22
+            r = data.iloc[i].loc['O_Empresa contratada']
             if not pd.isna(r):
                 r_lower = r.lower().split(' ')[0].strip()
                 best_match = process.extractOne(r_lower, [empresa[0] for empresa in empresas], scorer = fuzz.ratio)
@@ -72,8 +72,8 @@ def generarReporte(path, path_destino):
                     empresas.append((r_lower.upper(), 1))
 
                     
-            #O_Contraparte_IM
-            r = data.iloc[i].iloc[24]
+            #O_Contraparte_IM 24
+            r = data.iloc[i].loc['O_Contraparte_IM']
             if(not pd.isna(r)):
                 try:
                     index = next(index for index, tupla in enumerate(contraparte_imm) if tupla[0] == r)
@@ -83,8 +83,8 @@ def generarReporte(path, path_destino):
                     
             threshold = 80
 
-            #O_Estado de la obra
-            r = data.iloc[i].iloc[37]
+            #O_Estado de la obra 37
+            r = data.iloc[i].loc['O_Estado de la obra']
             if not pd.isna(r):
                 best_match = process.extractOne(r, [obras_finalizadas[0] for obras_finalizadas in obras_finalizadas], scorer = fuzz.ratio)
                 if best_match is not None and best_match[1] >= threshold:
@@ -94,81 +94,174 @@ def generarReporte(path, path_destino):
                     obras_finalizadas.append((r, 1))
 
 
-            #O_Colectores_saneamiento_acumulado_m
-            r = data.iloc[i].iloc[39]
+            #O_Colectores_saneamiento_acumulado_m 39
+            r = data.iloc[i].loc['O_Colectores_saneamiento_acumulado_m']
             if(not pd.isna(r)):
                 metraje_saneamiento += float(str(r).lower().split('m')[0].replace(',', '.'))
+            else:
+                r = data.iloc[i].loc['O_Colectores_saneamiento_acumulado_m']
+                if(not pd.isna(r)):
+                    metraje_saneamiento += float(str(r).lower().split('m')[0].replace(',', '.'))
+                else:
+                    error = "No se encontro columna para metraje de saneamiento. Se busco: O_Colectores_saneamiento_acumulado_m"
+                    lista_errores.append(error)
             
-            #O_Colectores_pluviales_acumulado_m
-            r = data.iloc[i].iloc[41]
+            #O_Colectores_pluviales_acumulado_m 41
+            r = data.iloc[i].loc['O_Colectores_pluviales_acumulado_m']
             if(not pd.isna(r)):
                 colectores_pluviales += float(str(r).lower().split('m')[0].replace(',', '.'))
+            else:
+                r = data.iloc[i].loc['O_Colectores_pluviales_acumulado_m']
+                if(not pd.isna(r)):
+                    colectores_pluviales += float(str(r).lower().split('m')[0].replace(',', '.'))
+                else:
+                    error = "No se encontro columna para metraje de pluviales, Se busco: O_Colectores_pluviales_acumulado_m"
+                    lista_errores.append(error)
                 
-            #O_Conexiones_acumulado_u
-            r = data.iloc[i].iloc[43]
+            #O_Conexiones_acumulado_u 43
+            r = data.iloc[i].loc['O_Conexiones_acumulado_u']
             if(not pd.isna(r)):
                 conexiones += int(str(r).lower().split('u')[0].strip())
-                
-            #O_Cámaras_acumulado_u
-            r = data.iloc[i].iloc[45]
+            else:
+                r = data.iloc[i].loc['O_Conexiones_acumulado_u']
+                if(not pd.isna(r)):
+                    conexiones += int(str(r).lower().split('u')[0].strip())
+                else:
+                    error = "No se encontro columna para conexiones, Se busco: O_Conexiones_acumulado_u"
+                    lista_errores.append(error)
+                    
+            #O_Cámaras_acumulado_u 45
+            r = data.iloc[i].loc['O_Cámaras_acumulado_u']
             if(not pd.isna(r)):
                 camaras += int(str(r).lower().split('u')[0].strip())
-
-            #O_Impulsión_acumulado_m
-            r = data.iloc[i].iloc[49]
+            else:
+                r = data.iloc[i].loc['O_Cámaras_acumulado_u']
+                if(not pd.isna(r)):
+                    camaras += int(str(r).lower().split('u')[0].strip())
+                else:
+                    error = "No se encontro columna para Cámaras, Se busco: O_Cámaras_acumulado_u"
+                    lista_errores.append(error)
+                
+            #O_Impulsión_acumulado_m 49
+            r = data.iloc[i].loc['O_Impulsión_acumulado_m']
             if(not pd.isna(r)):
                 impulsion += float(str(r).lower().split('m')[0].replace(',', '.'))
-                
-            #O_Bocas de tormenta_ acumulado_u
-            r = data.iloc[i].iloc[51]
+            else:
+                r = data.iloc[i].loc['O_Impulsión_acumulado_m']
+                if(not pd.isna(r)):
+                    impulsion += float(str(r).lower().split('m')[0].replace(',', '.'))
+                else:
+                    error = "No se encontro columna Impulsión, Se busco: O_Impulsión_acumulado_m"
+                    lista_errores.append(error)
+            
+            
+            #O_Bocas de tormenta_ acumulado_u 51
+            r = data.iloc[i].loc['O_Bocas de tormenta_ acumulado_u']
             if(not pd.isna(r)):
                 bocas_de_tormenta += int(str(r).lower().split('u')[0].strip())
-                
-            #O_Reguera_acumulado_u
-            r = data.iloc[i].iloc[53]
+            else:
+                r = data.iloc[i].loc['O_Bocas de tormenta_ acumulado_u']
+                if(not pd.isna(r)):
+                    bocas_de_tormenta += int(str(r).lower().split('u')[0].strip())
+                else:
+                    error = "No se encontro columna bocas de tormenta, Se busco: O_Bocas de tormenta_ acumulado_u"
+                    lista_errores.append(error)
+                    
+            #O_Reguera_acumulado_u 53
+            r = data.iloc[i].loc['O_Reguera_acumulado_u']
             if(not pd.isna(r)):
                 reguera += int(str(r).lower().split('u')[0].strip())
-                
-            #O_Elementos SUDS_acumulado_u
-            r = data.iloc[i].iloc[54]
+            else:
+                r = data.iloc[i].loc['O_Reguera_acumulado_u']
+                if(not pd.isna(r)):
+                    reguera += int(str(r).lower().split('u')[0].strip())
+                else:
+                    error = "No se encontro columna para Reguera, Se busco: O_Reguera_acumulado_u"
+                    lista_errores.append(error)
+                    
+            #O_Elementos SUDS_acumulado_u 54
+            r = data.iloc[i].loc['O_Elementos SUDS_acumulado_u']
             if(not pd.isna(r)):
                 elementos_suds += int(str(r).lower().split('u')[0].strip())
-                
-
+            else:
+                r = data.iloc[i].loc['O_Elementos SUDS_acumulado_u']
+                if(not pd.isna(r)):
+                    elementos_suds += int(str(r).lower().split('u')[0].strip())
+                else:
+                    error = "No se encontro columna para Elementos SUDS, Se busco: O_Elementos SUDS_acumulado_u"
+                    lista_errores.append(error)
+                    
             r = data.iloc[i].iloc[58]
             if(not pd.isna(r)):
                 reparacion_boca_tormenta += int(str(r).lower().split('u')[0].strip())
-
+            # else:
+                
+            #     if(not pd.isna(r)):
+                    
+            #     else:
+            #         lista_errores.append(error)
 
             r = data.iloc[i].iloc[59]
             if(not pd.isna(r)):
                 reparacion_colector += int(str(r).lower().split('u')[0].strip())
+            # else:
                 
+            #     if(not pd.isna(r)):
+                    
+            #     else:
+            #         lista_errores.append(error)
 
             r = data.iloc[i].iloc[60]
             if(not pd.isna(r)):
                 reparacion_conexion_nueva += int(str(r).lower().split('u')[0].strip())
+            # else:
                 
+            #     if(not pd.isna(r)):
+                    
+            #     else:
+            #         lista_errores.append(error)
 
             r = data.iloc[i].iloc[61]
             if(not pd.isna(r)):
                 reparacion_conexion_rota += int(str(r).lower().split('u')[0].strip())
+            # else:
                 
+            #     if(not pd.isna(r)):
+                    
+            #     else:
+            #         lista_errores.append(error)
 
             r = data.iloc[i].iloc[62]
             if(not pd.isna(r)):
                 reparacion_registro_roto += int(str(r).lower().split('u')[0].strip())
+            # else:
                 
+            #     if(not pd.isna(r)):
+                    
+            #     else:
+            #         lista_errores.append(error)
 
             r = data.iloc[i].iloc[63]
             if(not pd.isna(r)):
                 desobstruccion_colector += int(str(r).lower().split('u')[0].strip())
+            # else:
                 
+            #     if(not pd.isna(r)):
+                    
+            #     else:
+            #         lista_errores.append(error)
 
             r = data.iloc[i].iloc[64]
             if(not pd.isna(r)):
                 desobstruccion_conexion += int(str(r).lower().split('u')[0].strip())
-    
+            # else:
+                
+            #     if(not pd.isna(r)):
+                    
+            #     else:
+            #         lista_errores.append(error)
+            
+            
     except Exception as ex:
         print(str(ex))
 
@@ -371,3 +464,4 @@ def generarReporte(path, path_destino):
     
     remove('./temp/prueba.csv')
     #endregion
+    return lista_errores

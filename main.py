@@ -322,8 +322,15 @@ class Ui_MainWindow(object):
         try:
             
             path_destino = self.lineEdit_2.text() if self.lineEdit_2.text().strip() != '' else os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
-            cs.generarReporte(self.lineEdit.text(), self.lineEdit_2.text())
+            lista_errores = cs.generarReporte(self.lineEdit.text(), self.lineEdit_2.text())
             ui.label.setText('Reporte generado en: ' + path_destino) 
+            msg_1 = QMessageBox()
+            print(str(str(lista_errores)))
+            if(len(lista_errores) != 0):
+                msg_1.setIcon(QMessageBox.Information)
+                msg_1.setText(str(lista_errores))
+                msg_1.setWindowTitle("Error")
+                msg_1.setStandardButtons(QMessageBox.Ok)
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Information)
             msg.setText('Reporte generado en: ' + path_destino)
@@ -332,6 +339,7 @@ class Ui_MainWindow(object):
             ui.label.setText('Reporte generado en: ' + path_destino)
             msg.exec_()
             subprocess.Popen([path_destino+'/Reporte2.pdf'],shell=True)
+            
         except Exception as ex:
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
