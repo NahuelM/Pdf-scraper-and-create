@@ -9,20 +9,12 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt, QModelIndex
-from PyQt5.QtWidgets import *
-import csvScraper as cs
-import sys
-import pdfScraper as pd
-from PyQt5.uic import loadUi
-import subprocess 
-import os 
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(858, 645)
+        MainWindow.resize(1039, 645)
         MainWindow.setIconSize(QtCore.QSize(0, 0))
         MainWindow.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -44,17 +36,17 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.pushButton.setFont(font)
         self.pushButton.setStyleSheet("QPushButton#pushButton{\n"
-                                        "text-align: center;\n"
-                                        "text-decoration: none;\n"
-                                        "\n"
-                                        "color: #fff;\n"
-                                        "background-color: rgb(66, 135, 245);\n"
-                                        "\n"
-                                        "border-radius: 10px;\n"
-                                        "}\n"
-                                        "QPushButton:hover#pushButton{\n"
-                                        "    background-color: #4181e8;\n"
-                                        "}")
+"text-align: center;\n"
+"text-decoration: none;\n"
+"\n"
+"color: #fff;\n"
+"background-color: rgb(66, 135, 245);\n"
+"\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton:hover#pushButton{\n"
+"    background-color: #4181e8;\n"
+"}")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../../.designer/backup/test/folder-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton.setIcon(icon)
@@ -65,10 +57,10 @@ class Ui_MainWindow(object):
         font.setFamily("Roboto")
         font.setPointSize(10)
         self.lineEdit_2.setFont(font)
-        self.lineEdit_2.setStyleSheet(
-                                        "border: 1px solid rgb(50,50,50);\n"
-                                        "border-radius: 4px;\n"
-                                        " background-color: #f8f8f8;")
+        self.lineEdit_2.setStyleSheet("\n"
+"border: 1px solid rgb(50,50,50);\n"
+"border-radius: 4px;\n"
+" background-color: #f8f8f8;")
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(20, 470, 241, 16))
@@ -87,10 +79,10 @@ class Ui_MainWindow(object):
         font.setFamily("Roboto")
         font.setPointSize(10)
         self.lineEdit.setFont(font)
-        self.lineEdit.setStyleSheet(
-                                    "border: 1px solid rgb(50,50,50);\n"
-                                    "border-radius: 4px;\n"
-                                    " background-color: #f8f8f8;")
+        self.lineEdit.setStyleSheet("\n"
+"border: 1px solid rgb(50,50,50);\n"
+"border-radius: 4px;\n"
+" background-color: #f8f8f8;")
         self.lineEdit.setObjectName("lineEdit")
         self.ExaminarButton = QtWidgets.QPushButton(self.groupBox)
         self.ExaminarButton.setGeometry(QtCore.QRect(520, 30, 91, 31))
@@ -99,17 +91,17 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.ExaminarButton.setFont(font)
         self.ExaminarButton.setStyleSheet("QPushButton#ExaminarButton{\n"
-                                            "text-align: center;\n"
-                                            "text-decoration: none;\n"
-                                            "\n"
-                                            "color: #fff;\n"
-                                            "background-color: rgb(66, 135, 245);\n"
-                                            "\n"
-                                            "border-radius: 10px;\n"
-                                            "}\n"
-                                            "QPushButton:hover#ExaminarButton{\n"
-                                            "    background-color:#4181e8;\n"
-                                            "}")
+"text-align: center;\n"
+"text-decoration: none;\n"
+"\n"
+"color: #fff;\n"
+"background-color: rgb(66, 135, 245);\n"
+"\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton:hover#ExaminarButton{\n"
+"    background-color:#4181e8;\n"
+"}")
         self.ExaminarButton.setIcon(icon)
         self.ExaminarButton.setObjectName("ExaminarButton")
         self.label_2 = QtWidgets.QLabel(self.groupBox)
@@ -126,20 +118,20 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.generarReporte.setFont(font)
         self.generarReporte.setStyleSheet("QPushButton#generarReporte{\n"
-                                            "text-align: center;\n"
-                                            "text-decoration: none;\n"
-                                            "\n"
-                                            "color: #fff;\n"
-                                            "background-color: rgb(66, 135, 245);\n"
-                                            "\n"
-                                            "border-radius: 10px;\n"
-                                            "}\n"
-                                            "\n"
-                                            "QPushButton:hover#generarReporte{\n"
-                                            "    background-color:#4181e8;\n"
-                                            "}")
+"text-align: center;\n"
+"text-decoration: none;\n"
+"\n"
+"color: #fff;\n"
+"background-color: rgb(66, 135, 245);\n"
+"\n"
+"border-radius: 10px;\n"
+"}\n"
+"\n"
+"QPushButton:hover#generarReporte{\n"
+"    background-color:#4181e8;\n"
+"}")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("test/report.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("../PythonScripts/test/report.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.generarReporte.setIcon(icon1)
         self.generarReporte.setIconSize(QtCore.QSize(20, 20))
         self.generarReporte.setObjectName("generarReporte")
@@ -154,18 +146,18 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.pushButton_2.setFont(font)
         self.pushButton_2.setStyleSheet("QPushButton#pushButton_2{\n"
-                                        "text-align: center;\n"
-                                        "text-decoration: none;\n"
-                                        "\n"
-                                        "color: #fff;\n"
-                                        "background-color: rgb(66, 135, 245);\n"
-                                        "\n"
-                                        "border-radius: 10px;\n"
-                                        "}\n"
-                                        "\n"
-                                        "QPushButton:hover#pushButton_2{\n"
-                                        "background-color: #4181e8;\n"
-                                        "}")
+"text-align: center;\n"
+"text-decoration: none;\n"
+"\n"
+"color: #fff;\n"
+"background-color: rgb(66, 135, 245);\n"
+"\n"
+"border-radius: 10px;\n"
+"}\n"
+"\n"
+"QPushButton:hover#pushButton_2{\n"
+"background-color: #4181e8;\n"
+"}")
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_3 = QtWidgets.QPushButton(self.groupBox_2)
         self.pushButton_3.setGeometry(QtCore.QRect(290, 220, 101, 31))
@@ -174,18 +166,18 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.pushButton_3.setFont(font)
         self.pushButton_3.setStyleSheet("QPushButton#pushButton_3{\n"
-                                        "text-align: center;\n"
-                                        "text-decoration: none;\n"
-                                        "\n"
-                                        "color: #fff;\n"
-                                        "background-color: rgb(66, 135, 245);\n"
-                                        "\n"
-                                        "border-radius: 10px;\n"
-                                        "}\n"
-                                        "\n"
-                                        "QPushButton:hover#pushButton_3{\n"
-                                        "    background-color:#4181e8;\n"
-                                        "}")
+"text-align: center;\n"
+"text-decoration: none;\n"
+"\n"
+"color: #fff;\n"
+"background-color: rgb(66, 135, 245);\n"
+"\n"
+"border-radius: 10px;\n"
+"}\n"
+"\n"
+"QPushButton:hover#pushButton_3{\n"
+"    background-color:#4181e8;\n"
+"}")
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_4 = QtWidgets.QPushButton(self.groupBox_2)
         self.pushButton_4.setGeometry(QtCore.QRect(400, 220, 101, 31))
@@ -194,27 +186,27 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.pushButton_4.setFont(font)
         self.pushButton_4.setStyleSheet("QPushButton#pushButton_4{\n"
-                                        "text-align: center;\n"
-                                        "text-decoration: none;\n"
-                                        "\n"
-                                        "color: #fff;\n"
-                                        "background-color: rgb(66, 135, 245);\n"
-                                        "\n"
-                                        "border-radius: 10px;\n"
-                                        "}\n"
-                                        "QPushButton:hover#pushButton_4{\n"
-                                        "    background-color:#4181e8;\n"
-                                        "}")
+"text-align: center;\n"
+"text-decoration: none;\n"
+"\n"
+"color: #fff;\n"
+"background-color: rgb(66, 135, 245);\n"
+"\n"
+"border-radius: 10px;\n"
+"}\n"
+"QPushButton:hover#pushButton_4{\n"
+"    background-color:#4181e8;\n"
+"}")
         self.pushButton_4.setObjectName("pushButton_4")
         self.listView = QtWidgets.QListView(self.groupBox_2)
         self.listView.setGeometry(QtCore.QRect(10, 20, 601, 192))
         font = QtGui.QFont()
         font.setFamily("Roboto")
         self.listView.setFont(font)
-        self.listView.setStyleSheet(
-                                    "border: 1px solid rgb(50,50,50);\n"
-                                    "border-radius: 4px;\n"
-                                    " background-color: #f8f8f8;")
+        self.listView.setStyleSheet("\n"
+"border: 1px solid rgb(50,50,50);\n"
+"border-radius: 4px;\n"
+" background-color: #f8f8f8;")
         self.listView.setViewMode(QtWidgets.QListView.IconMode)
         self.listView.setObjectName("listView")
         self.generarReporte_2 = QtWidgets.QPushButton(self.groupBox_2)
@@ -224,19 +216,19 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.generarReporte_2.setFont(font)
         self.generarReporte_2.setStyleSheet("QPushButton#generarReporte_2{\n"
-                                            "    text-align: center;\n"
-                                            "    text-decoration: none;\n"
-                                            "    color: #fff;\n"
-                                            "    background-color: rgb(66, 135, 245);\n"
-                                            "    border-radius: 10px;\n"
-                                            "}\n"
-                                            "\n"
-                                            "QPushButton:hover#generarReporte_2{\n"
-                                            "    background-color: #4181e8;\n"
-                                            "}\n"
-                                            "\n"
-                                            "\n"
-                                            "")
+"    text-align: center;\n"
+"    text-decoration: none;\n"
+"    color: #fff;\n"
+"    background-color: rgb(66, 135, 245);\n"
+"    border-radius: 10px;\n"
+"}\n"
+"\n"
+"QPushButton:hover#generarReporte_2{\n"
+"    background-color: #4181e8;\n"
+"}\n"
+"\n"
+"\n"
+"")
         self.generarReporte_2.setIcon(icon1)
         self.generarReporte_2.setIconSize(QtCore.QSize(20, 20))
         self.generarReporte_2.setAutoExclusive(False)
@@ -248,7 +240,7 @@ class Ui_MainWindow(object):
         self.pushButton_5.setStyleSheet("background-color:rgba(0,0,0,0)")
         self.pushButton_5.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("test/supergotitaLogo (1).png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("../PythonScripts/test/supergotitaLogo (1).png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_5.setIcon(icon2)
         self.pushButton_5.setIconSize(QtCore.QSize(70, 70))
         self.pushButton_5.setObjectName("pushButton_5")
@@ -257,27 +249,33 @@ class Ui_MainWindow(object):
         self.pushButton_6.setStyleSheet("background-color:rgba(0,0,0,0);")
         self.pushButton_6.setText("")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("test/Logo verde.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("../PythonScripts/test/Logo verde.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_6.setIcon(icon3)
         self.pushButton_6.setIconSize(QtCore.QSize(100, 90))
         self.pushButton_6.setObjectName("pushButton_6")
+        self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
+        self.tableWidget.setGeometry(QtCore.QRect(690, 10, 341, 192))
+        self.tableWidget.setBaseSize(QtCore.QSize(100, 100))
+        self.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.setColumnCount(0)
+        self.tableWidget.setRowCount(0)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 858, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1039, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.ExaminarButton.clicked.connect(self.examinar)
-        self.pushButton.clicked.connect(self.examinar2)
-        self.pushButton_2.clicked.connect(self.examinar3)
-        self.generarReporte.clicked.connect(self.generarReporte_CSV)
-        self.generarReporte_2.clicked.connect(self.generarReport_pdf)
-        self.pushButton_3.clicked.connect(self.add_Item_To_List)
-        self.lineEdit_2.setPlaceholderText(os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop'))
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.tableWidget.setColumnCount(2)
+        self.tableWidget.setRowCount(1)
+        self.tableWidget.setHorizontalHeaderLabels(('test', 'test2'))
+        self.tableWidget.setColumnWidth(0, 120)
+        self.tableWidget.setItem(0, 0, QtWidgets.QTableWidgetItem('column1'))
+        print(str(self.tableWidget.selectedItems()))
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -288,106 +286,13 @@ class Ui_MainWindow(object):
         self.ExaminarButton.setText(_translate("MainWindow", "Examinar"))
         self.label_2.setText(_translate("MainWindow", "Seleccionar archivo"))
         self.generarReporte.setText(_translate("MainWindow", "Generar Reporte Cuatrimestral"))
-        self.groupBox_2.setTitle(_translate("MainWindow", "Reporte mensual"))
+        self.groupBox_2.setTitle(_translate("MainWindow", "Reporte Cuatrimestral"))
         self.pushButton_2.setText(_translate("MainWindow", "Examinar"))
         self.pushButton_3.setText(_translate("MainWindow", "Agregar archivo"))
         self.pushButton_4.setText(_translate("MainWindow", "Borrar archivo"))
         self.generarReporte_2.setText(_translate("MainWindow", "Generar Reporte mensual"))
 
-    def examinar(self):
-        try:
-            file_name = QFileDialog.getOpenFileName(filter='*.csv *.xls')
-            self.lineEdit.setText(file_name[0])
-        except Exception as ex:
-            print(f"Unexpected {ex=}, {type(ex)=}")
-    
-    def examinar2(self):
-        try:
-            file_name = QFileDialog.getExistingDirectory()
-            self.lineEdit_2.setText(file_name)
-        except Exception as ex:
-            print(f"Unexpected {ex=}, {type(ex)=}")
-        
-    def examinar3(self):
-        model = QtGui.QStandardItemModel()
-        files_names = QFileDialog.getOpenFileNames(filter='*.pdf')
-        self.listView.setModel(model)
-        for i in files_names[0]:
-            item = QtGui.QStandardItem(i)
-            model.appendRow(item)
-            
 
-    def generarReporte_CSV(self):
-        app.setOverrideCursor(Qt.WaitCursor)
-        try:
-            
-            path_destino = self.lineEdit_2.text() if self.lineEdit_2.text().strip() != '' else os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
-            lista_errores = cs.generarReporte(self.lineEdit.text(), self.lineEdit_2.text())
-            ui.label.setText('Reporte generado en: ' + path_destino) 
-            msg_1 = QMessageBox()
-            print(str(str(lista_errores)))
-            if(len(lista_errores) != 0):
-                msg_1.setIcon(QMessageBox.Information)
-                msg_1.setText(str(lista_errores))
-                msg_1.setWindowTitle("Error")
-                msg_1.setStandardButtons(QMessageBox.Ok)
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Information)
-            msg.setText('Reporte generado en: ' + path_destino)
-            msg.setWindowTitle("Information")
-            msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            ui.label.setText('Reporte generado en: ' + path_destino)
-            msg.exec_()
-            subprocess.Popen([path_destino+'/Reporte2.pdf'],shell=True)
-            
-        except Exception as ex:
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Critical)
-            msg.setText(f"Unexpected {ex=}, {type(ex)=}")
-            msg.setWindowTitle('Error')
-            msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            ui.label.setText('Error' + f"Unexpected {ex=}, {type(ex)=}")
-            print('Error' + f"Unexpected {ex=}, {type(ex)=}")
-            msg.exec_()
-        
-        app.restoreOverrideCursor()
-    
-    def generarReport_pdf(self):
-        app.setOverrideCursor(Qt.WaitCursor)
-        files = []
-        try:
-            model = self.listView.model()
-            for i in range(model.rowCount()):
-                index =  model.index(i, 0, QModelIndex())
-                files.append(model.data(index))
-            
-            path_destino = self.lineEdit_2.text() if self.lineEdit_2.text().strip() != '' else os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
-            pd.crearReporte(files, path_destino)
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Information)
-            msg.setText('Reporte generado en: ' + path_destino)
-            msg.setWindowTitle("Information")
-            msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            ui.label.setText('Reporte generado en: ' + path_destino)
-            msg.exec_()
-            subprocess.Popen([path_destino+'/Reporte.pdf'],shell=True)
-        except Exception as ex:
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Critical)
-            msg.setText(f"Unexpected {ex=}, {type(ex)=}")
-            msg.setWindowTitle("Error")
-            msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            ui.label.setText('Error' + f"Unexpected {ex=}, {type(ex)=}")
-            print(ex)
-            msg.exec_()
-        app.restoreOverrideCursor()
-        
-    def add_Item_To_List(self):
-        model = QtGui.QStandardItemModel()
-        file_name = QFileDialog.getOpenFileName(filter='*.pdf')
-        self.listView.setModel(model)
-        item = QtGui.QStandardItem(file_name[0])
-        model.appendRow(item)
 
 if __name__ == "__main__":
     import sys

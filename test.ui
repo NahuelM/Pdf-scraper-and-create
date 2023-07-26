@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>858</width>
+    <width>1039</width>
     <height>645</height>
    </rect>
   </property>
@@ -254,7 +254,7 @@ QPushButton:hover#generarReporte{
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>test/report.png</normaloff>test/report.png</iconset>
+       <normaloff>../PythonScripts/test/report.png</normaloff>../PythonScripts/test/report.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -440,7 +440,7 @@ QPushButton:hover#generarReporte_2{
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>test/report.png</normaloff>test/report.png</iconset>
+       <normaloff>../PythonScripts/test/report.png</normaloff>../PythonScripts/test/report.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -476,7 +476,7 @@ QPushButton:hover#generarReporte_2{
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>test/supergotitaLogo (1).png</normaloff>test/supergotitaLogo (1).png</iconset>
+      <normaloff>../PythonScripts/test/supergotitaLogo (1).png</normaloff>../PythonScripts/test/supergotitaLogo (1).png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -502,12 +502,28 @@ QPushButton:hover#generarReporte_2{
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>test/Logo verde.png</normaloff>test/Logo verde.png</iconset>
+      <normaloff>../PythonScripts/test/Logo verde.png</normaloff>../PythonScripts/test/Logo verde.png</iconset>
     </property>
     <property name="iconSize">
      <size>
       <width>100</width>
       <height>90</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>10</y>
+      <width>341</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="baseSize">
+     <size>
+      <width>100</width>
+      <height>100</height>
      </size>
     </property>
    </widget>
@@ -517,7 +533,7 @@ QPushButton:hover#generarReporte_2{
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>858</width>
+     <width>1039</width>
      <height>21</height>
     </rect>
    </property>
@@ -525,7 +541,7 @@ QPushButton:hover#generarReporte_2{
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources>
-  <include location="test/imm.qrc"/>
+  <include location="../PythonScripts/test/imm.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -48,17 +48,25 @@ import subprocess
     def generarReporte_CSV(self):
         app.setOverrideCursor(Qt.WaitCursor)
         try:
-            cs.generarReporte(self.lineEdit.text(), self.lineEdit_2.text())
-            ui.label.setText('Reporte generado en: ' + self.lineEdit_2.text()) 
-            
+            path_destino = self.lineEdit_2.text() if self.lineEdit_2.text().strip() != '' else os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
+            lista_errores = cs.generarReporte(self.lineEdit.text(), self.lineEdit_2.text())
+            ui.label.setText('Reporte generado en: ' + path_destino) 
+            msg_1 = QMessageBox()
+            print(str(str(lista_errores)))
+            if(len(lista_errores) != 0):
+                msg_1.setIcon(QMessageBox.Information)
+                msg_1.setText(str(lista_errores))
+                msg_1.setWindowTitle("Error")
+                msg_1.setStandardButtons(QMessageBox.Ok)
+                msg_1.exec_()
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Information)
-            msg.setText('Reporte generado en: ' + self.lineEdit_2.text())
+            msg.setText('Reporte generado en: ' + path_destino)
             msg.setWindowTitle("Information")
             msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            ui.label.setText('Reporte generado en: ' + self.lineEdit_2.text())
+            ui.label.setText('Reporte generado en: ' + path_destino)
             msg.exec_()
-            subprocess.Popen([self.lineEdit_2.text()+'/Reporte2.pdf'],shell=True)
+            subprocess.Popen([path_destino+'/Reporte2.pdf'],shell=True)
         except Exception as ex:
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)

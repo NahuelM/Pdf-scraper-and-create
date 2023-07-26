@@ -43,13 +43,60 @@ def generarReporte(path, path_destino)->list:
     desobstruccion_conexion = 0
 
     threshold = 80  # Umbral para considerar una coincidencia aceptable (ajusta según tus necesidades)
+    
+    if not 'O_Origen de Fondos' in data.columns:
+        error = "No se encontro columna para origen de fondos. Se busco: O_Origen de Fondos"
+        lista_errores.append(error)
+    
+    if not 'O_Empresa contratada' in data.columns:
+        error = "No se encontro columna para empresas contratadas. Se busco: O_Empresa contratada"
+        lista_errores.append(error)
+    
+    if not 'O_Contraparte_IM' in data.columns:
+        error = "No se encontro columna para contrparte IM. Se busco: O_Contraparte_IM"
+        lista_errores.append(error)
+    
+    if not 'O_Estado de la obra' in data.columns:
+        error = "No se encontro columna estado de obra. Se busco: O_Estado de la obra"
+        lista_errores.append(error)
+    
+    if not 'O_Colectores_saneamiento_acumulado_m' in data.columns:
+        error = "No se encontro columna para metraje de saneamiento. Se busco: O_Colectores_saneamiento_acumulado_m"
+        lista_errores.append(error)
+        
+    if not 'O_Colectores_pluviales_acumulado_m' in data.columns:
+        error = "No se encontro columna para metraje de pluviales, Se busco: O_Colectores_pluviales_acumulado_m"
+        lista_errores.append(error)
+        
+    if not 'O_Conexiones_acumulado_u' in data.columns:
+        error = "No se encontro columna para conexiones, Se busco: O_Conexiones_acumulado_u"
+        lista_errores.append(error)
+        
+    if not 'O_Cámaras_acumulado_u' in data.columns:
+        error = "No se encontro columna para Cámaras, Se busco: O_Cámaras_acumulado_u"
+        lista_errores.append(error)
+            
+    if not 'O_Impulsión_acumulado_m' in data.columns:
+        error = "No se encontro columna Impulsión, Se busco: O_Impulsión_acumulado_m"
+        lista_errores.append(error)
+        
+    if not 'O_Bocas de tormenta_ acumulado_u' in data.columns:
+        error = "No se encontro columna bocas de tormenta, Se busco: O_Bocas de tormenta_ acumulado_u"
+        lista_errores.append(error)
+        
+    if not 'O_Reguera_acumulado_u' in data.columns:
+        error = "No se encontro columna para Reguera, Se busco: O_Reguera_acumulado_u"
+        lista_errores.append(error)
+        
+    if not 'O_Elementos SUDS_acumulado_u' in data.columns:
+        error = "No se encontro columna para Elementos SUDS, Se busco: O_Elementos SUDS_acumulado_u"
+        lista_errores.append(error)
+        
     try:
         for i in range(1, data.shape[0]):
             #O_Origen de Fondos
             
             r = data.iloc[i].loc['O_Origen de Fondos'] 
-            if(not pd.isna(r)):
-                r = data.iloc[i].loc['O_Origen de Fondos']
             
             if not pd.isna(r):
                 best_match = process.extractOne(r, [origen_de_fondos[0] for origen_de_fondos in origen_de_fondos], scorer = fuzz.ratio)
@@ -58,7 +105,7 @@ def generarReporte(path, path_destino)->list:
                     origen_de_fondos[index] = (origen_de_fondos[index][0], origen_de_fondos[index][1] + 1)
                 else:
                     origen_de_fondos.append((r, 1))
-                
+               
                     
             #O_Empresa contratada 22
             r = data.iloc[i].loc['O_Empresa contratada']
@@ -71,6 +118,7 @@ def generarReporte(path, path_destino)->list:
                 else:
                     empresas.append((r_lower.upper(), 1))
 
+                   
                     
             #O_Contraparte_IM 24
             r = data.iloc[i].loc['O_Contraparte_IM']
@@ -80,6 +128,8 @@ def generarReporte(path, path_destino)->list:
                     contraparte_imm[index] = (contraparte_imm[index][0], contraparte_imm[index][1] + 1)
                 except StopIteration:
                     contraparte_imm.append((r, 1))
+                    
+            
                     
             threshold = 80
 
@@ -98,98 +148,47 @@ def generarReporte(path, path_destino)->list:
             r = data.iloc[i].loc['O_Colectores_saneamiento_acumulado_m']
             if(not pd.isna(r)):
                 metraje_saneamiento += float(str(r).lower().split('m')[0].replace(',', '.'))
-            else:
-                r = data.iloc[i].loc['O_Colectores_saneamiento_acumulado_m']
-                if(not pd.isna(r)):
-                    metraje_saneamiento += float(str(r).lower().split('m')[0].replace(',', '.'))
-                else:
-                    error = "No se encontro columna para metraje de saneamiento. Se busco: O_Colectores_saneamiento_acumulado_m"
-                    lista_errores.append(error)
+
             
             #O_Colectores_pluviales_acumulado_m 41
             r = data.iloc[i].loc['O_Colectores_pluviales_acumulado_m']
             if(not pd.isna(r)):
                 colectores_pluviales += float(str(r).lower().split('m')[0].replace(',', '.'))
-            else:
-                r = data.iloc[i].loc['O_Colectores_pluviales_acumulado_m']
-                if(not pd.isna(r)):
-                    colectores_pluviales += float(str(r).lower().split('m')[0].replace(',', '.'))
-                else:
-                    error = "No se encontro columna para metraje de pluviales, Se busco: O_Colectores_pluviales_acumulado_m"
-                    lista_errores.append(error)
+
                 
             #O_Conexiones_acumulado_u 43
             r = data.iloc[i].loc['O_Conexiones_acumulado_u']
             if(not pd.isna(r)):
                 conexiones += int(str(r).lower().split('u')[0].strip())
-            else:
-                r = data.iloc[i].loc['O_Conexiones_acumulado_u']
-                if(not pd.isna(r)):
-                    conexiones += int(str(r).lower().split('u')[0].strip())
-                else:
-                    error = "No se encontro columna para conexiones, Se busco: O_Conexiones_acumulado_u"
-                    lista_errores.append(error)
+            
                     
             #O_Cámaras_acumulado_u 45
             r = data.iloc[i].loc['O_Cámaras_acumulado_u']
             if(not pd.isna(r)):
                 camaras += int(str(r).lower().split('u')[0].strip())
-            else:
-                r = data.iloc[i].loc['O_Cámaras_acumulado_u']
-                if(not pd.isna(r)):
-                    camaras += int(str(r).lower().split('u')[0].strip())
-                else:
-                    error = "No se encontro columna para Cámaras, Se busco: O_Cámaras_acumulado_u"
-                    lista_errores.append(error)
-                
+            
             #O_Impulsión_acumulado_m 49
             r = data.iloc[i].loc['O_Impulsión_acumulado_m']
             if(not pd.isna(r)):
                 impulsion += float(str(r).lower().split('m')[0].replace(',', '.'))
-            else:
-                r = data.iloc[i].loc['O_Impulsión_acumulado_m']
-                if(not pd.isna(r)):
-                    impulsion += float(str(r).lower().split('m')[0].replace(',', '.'))
-                else:
-                    error = "No se encontro columna Impulsión, Se busco: O_Impulsión_acumulado_m"
-                    lista_errores.append(error)
-            
-            
+   
             #O_Bocas de tormenta_ acumulado_u 51
             r = data.iloc[i].loc['O_Bocas de tormenta_ acumulado_u']
             if(not pd.isna(r)):
                 bocas_de_tormenta += int(str(r).lower().split('u')[0].strip())
-            else:
-                r = data.iloc[i].loc['O_Bocas de tormenta_ acumulado_u']
-                if(not pd.isna(r)):
-                    bocas_de_tormenta += int(str(r).lower().split('u')[0].strip())
-                else:
-                    error = "No se encontro columna bocas de tormenta, Se busco: O_Bocas de tormenta_ acumulado_u"
-                    lista_errores.append(error)
+            
                     
             #O_Reguera_acumulado_u 53
             r = data.iloc[i].loc['O_Reguera_acumulado_u']
             if(not pd.isna(r)):
                 reguera += int(str(r).lower().split('u')[0].strip())
-            else:
-                r = data.iloc[i].loc['O_Reguera_acumulado_u']
-                if(not pd.isna(r)):
-                    reguera += int(str(r).lower().split('u')[0].strip())
-                else:
-                    error = "No se encontro columna para Reguera, Se busco: O_Reguera_acumulado_u"
-                    lista_errores.append(error)
+            
                     
             #O_Elementos SUDS_acumulado_u 54
             r = data.iloc[i].loc['O_Elementos SUDS_acumulado_u']
             if(not pd.isna(r)):
                 elementos_suds += int(str(r).lower().split('u')[0].strip())
-            else:
-                r = data.iloc[i].loc['O_Elementos SUDS_acumulado_u']
-                if(not pd.isna(r)):
-                    elementos_suds += int(str(r).lower().split('u')[0].strip())
-                else:
-                    error = "No se encontro columna para Elementos SUDS, Se busco: O_Elementos SUDS_acumulado_u"
-                    lista_errores.append(error)
+            
                     
             r = data.iloc[i].iloc[58]
             if(not pd.isna(r)):
@@ -456,6 +455,7 @@ def generarReporte(path, path_destino)->list:
     pdf.cell(w = w+15, h = ch, txt = 'Desobstruccion colector: ' + str(round(desobstruccion_colector, 2)) + 'u', ln = 1)
     pdf.cell(w = w+15, h = ch, txt = 'Desobstruccion conexion: ' + str(round(desobstruccion_conexion, 2)) + 'u', ln = 1)
     p = path_destino + './Reporte3.pdf'
+    
     try:
         pdf.output(f''+p, 'F')
         print("EXITO reporte generado")
