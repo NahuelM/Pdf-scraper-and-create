@@ -7,7 +7,7 @@ import sys
 import pdfScraper as pd
 from PyQt5.uic import loadUi
 import subprocess 
- 
+import os
  
  
  
@@ -19,6 +19,7 @@ import subprocess
         self.generarReporte.clicked.connect(self.generarReporte_CSV)
         self.generarReporte_2.clicked.connect(self.generarReport_pdf)
 
+        self.pushButton_7.clicked.connect(self.get_table_content)
 
 -----------------------------------------------------------------------------
 
@@ -59,6 +60,9 @@ import subprocess
                 msg_1.setWindowTitle("Error")
                 msg_1.setStandardButtons(QMessageBox.Ok)
                 msg_1.exec_()
+                #Abre ventana para elegir columnas que quiero que participen en el reporte
+                self.openSecondWindow()
+                self.ui.set_data_table(lista_errores[1])
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Information)
             msg.setText('Reporte generado en: ' + path_destino)
@@ -105,3 +109,24 @@ import subprocess
             ui.label.setText('Error' + f"Unexpected {ex=}, {type(ex)=}")
             msg.exec_()
         app.restoreOverrideCursor()
+
+    def get_table_content(self):
+        for item in self.tableWidget.selectedItems():
+            print(item.text())
+        
+    def set_data_table(self, list_column):
+        cant_columns = len(list_column)
+        lista_fix = []
+        for i in range(0, cant_columns):
+            if(not str(list_column[i]).__contains__('Unnamed:')):
+                lista_fix.append(list_column[i])
+        
+        cant_columns = len(lista_fix)
+        self.tableWidget.setColumnCount(cant_columns)
+        self.tableWidget.setRowCount(1)
+        #self.tableWidget.setHorizontalHeaderLabels(('test', 'test2'))
+        #self.tableWidget.setColumnWidth(0, 120)
+        j = 0
+        for i in lista_fix:
+            self.tableWidget.setItem(0, j, QtWidgets.QTableWidgetItem(str(i)))
+            j += 1

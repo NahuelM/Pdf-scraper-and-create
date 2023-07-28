@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1039</width>
+    <width>860</width>
     <height>645</height>
    </rect>
   </property>
@@ -511,29 +511,13 @@ QPushButton:hover#generarReporte_2{
      </size>
     </property>
    </widget>
-   <widget class="QTableWidget" name="tableWidget">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>10</y>
-      <width>341</width>
-      <height>192</height>
-     </rect>
-    </property>
-    <property name="baseSize">
-     <size>
-      <width>100</width>
-      <height>100</height>
-     </size>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1039</width>
+     <width>860</width>
      <height>21</height>
     </rect>
    </property>

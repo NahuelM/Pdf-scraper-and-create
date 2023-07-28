@@ -464,4 +464,4 @@ def generarReporte(path, path_destino)->list:
     
     remove('./temp/prueba.csv')
     #endregion
-    return lista_errores
+    return [lista_errores, data.columns]

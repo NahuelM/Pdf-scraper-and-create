@@ -9,12 +9,25 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5.QtCore import Qt, QModelIndex
+from PyQt5.QtWidgets import *
+from secondW import Ui_SeconWindow
+import csvScraper as cs
+import sys
+import pdfScraper as pd
+from PyQt5.uic import loadUi
+import subprocess 
+import os
 
 class Ui_MainWindow(object):
+    def openSecondWindow(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_SeconWindow()
+        self.ui.setupUi(self.window)
+        self.window.show()
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1039, 645)
+        MainWindow.resize(860, 645)
         MainWindow.setIconSize(QtCore.QSize(0, 0))
         MainWindow.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -253,29 +266,21 @@ class Ui_MainWindow(object):
         self.pushButton_6.setIcon(icon3)
         self.pushButton_6.setIconSize(QtCore.QSize(100, 90))
         self.pushButton_6.setObjectName("pushButton_6")
-        self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.tableWidget.setGeometry(QtCore.QRect(690, 10, 341, 192))
-        self.tableWidget.setBaseSize(QtCore.QSize(100, 100))
-        self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setColumnCount(0)
-        self.tableWidget.setRowCount(0)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1039, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 860, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-
+        self.ExaminarButton.clicked.connect(self.examinar)
+        self.pushButton.clicked.connect(self.examinar2)
+        self.pushButton_2.clicked.connect(self.examinar3)
+        self.generarReporte.clicked.connect(self.generarReporte_CSV)
+        self.generarReporte_2.clicked.connect(self.generarReport_pdf)
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        self.tableWidget.setColumnCount(2)
-        self.tableWidget.setRowCount(1)
-        self.tableWidget.setHorizontalHeaderLabels(('test', 'test2'))
-        self.tableWidget.setColumnWidth(0, 120)
-        self.tableWidget.setItem(0, 0, QtWidgets.QTableWidgetItem('column1'))
-        print(str(self.tableWidget.selectedItems()))
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -292,6 +297,91 @@ class Ui_MainWindow(object):
         self.pushButton_4.setText(_translate("MainWindow", "Borrar archivo"))
         self.generarReporte_2.setText(_translate("MainWindow", "Generar Reporte mensual"))
 
+    def examinar(self):
+        try:
+            file_name = QFileDialog.getOpenFileName(filter='*.csv *.xls')
+            self.lineEdit.setText(file_name[0])
+        except Exception as ex:
+            print(f"Unexpected {ex=}, {type(ex)=}")
+    
+    def examinar2(self):
+        try:
+            file_name = QFileDialog.getExistingDirectory()
+            self.lineEdit_2.setText(file_name)
+        except Exception as ex:
+            print(f"Unexpected {ex=}, {type(ex)=}")
+        
+    def examinar3(self):
+        model = QtGui.QStandardItemModel()
+        files_names = QFileDialog.getOpenFileNames(filter='*.pdf')
+        self.listView.setModel(model)
+        for i in files_names[0]:
+            item = QtGui.QStandardItem(i)
+            model.appendRow(item)
+            
+
+    def generarReporte_CSV(self):
+        app.setOverrideCursor(Qt.WaitCursor)
+        try:
+            path_destino = self.lineEdit_2.text() if self.lineEdit_2.text().strip() != '' else os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
+            lista_errores = cs.generarReporte(self.lineEdit.text(), self.lineEdit_2.text())
+            ui.label.setText('Reporte generado en: ' + path_destino) 
+            msg_1 = QMessageBox()
+            if(len(lista_errores[0]) != 0):
+                msg_1.setIcon(QMessageBox.Information)
+                msg_1.setText(str(lista_errores))
+                msg_1.setWindowTitle("Error")
+                msg_1.setStandardButtons(QMessageBox.Ok)
+                msg_1.exec_()
+                #Abre ventana para elegir columnas que quiero que participen en el reporte
+                self.openSecondWindow()
+                self.ui.set_data_table(lista_errores[1])
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Information)
+            msg.setText('Reporte generado en: ' + path_destino)
+            msg.setWindowTitle("Information")
+            msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            ui.label.setText('Reporte generado en: ' + path_destino)
+            msg.exec_()
+            subprocess.Popen([path_destino+'/Reporte2.pdf'],shell=True)
+        except Exception as ex:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText(f"Unexpected {ex=}, {type(ex)=}")
+            msg.setWindowTitle('Error')
+            msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            ui.label.setText('Error' + f"Unexpected {ex=}, {type(ex)=}")
+            msg.exec_()
+        
+        app.restoreOverrideCursor()
+    
+    def generarReport_pdf(self):
+        app.setOverrideCursor(Qt.WaitCursor)
+        files = []
+        try:
+            model = self.listView.model()
+            for i in range(model.rowCount()):
+                index =  model.index(i, 0, QModelIndex())
+                files.append(model.data(index))
+            pd.crearReporte(files, self.lineEdit_2.text())
+            
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Information)
+            msg.setText('Reporte generado en: ' + self.lineEdit_2.text())
+            msg.setWindowTitle("Information")
+            msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            ui.label.setText('Reporte generado en: ' + self.lineEdit_2.text())
+            msg.exec_()
+            subprocess.Popen([self.lineEdit_2.text()+'/Reporte.pdf'],shell=True)
+        except Exception as ex:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText(f"Unexpected {ex=}, {type(ex)=}")
+            msg.setWindowTitle("Error")
+            msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            ui.label.setText('Error' + f"Unexpected {ex=}, {type(ex)=}")
+            msg.exec_()
+        app.restoreOverrideCursor()
 
 
 if __name__ == "__main__":
